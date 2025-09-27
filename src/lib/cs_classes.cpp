@@ -33,6 +33,7 @@ inline bool any(BathroomStation s) {
 class Schedule {};
 
 
+
 enum class BathroomStation : uint8_t {
     None   = 0,        // 00000000
     Sink1  = 1 << 0,   // 00000001  (bit 1)
@@ -41,21 +42,33 @@ enum class BathroomStation : uint8_t {
     Tub    = 1 << 3    // 00001000  (bit 3)
 };
 
+struct Station {
+    BathroomStation type;
+    Person occupiedBy;
+};
+
 
 class Bathroom {
     public:
-        uint8_t stations;
+        uint8_t stationsRaw;            // Userless station info for quick bit masking logic
+        vector<Station> stations = {};  // Station info for complex user-specific logic
         Bathroom(uint8_t stations_=0) {
-            stations = stations_;
+            stationsRaw = stations_;
+            for (uint8_t bit = 0; bit < 8; bit++) {
+                uint8_t mask = 1 << bit;
+                if (mask & 0x0F) {
+                    stations.push_back({static_cast<BathroomStation>(mask), Person::None});
+                }
+            }
         }
         inline bool isFree(BathroomStation station) const {
-            return static_cast<uint8_t>(station) & stations;
+            return !(static_cast<uint8_t>(station) & stationsRaw);
         }
         void takeStation(BathroomStation station) {
-            stations |= static_cast<uint8_t>(station);
+            stationsRaw |= static_cast<uint8_t>(station);
         }
         void releaseStation(BathroomStation station) {
-            stations &= static_cast<uint8_t>(station);
+            stationsRaw &= static_cast<uint8_t>(station);
         }
         /*
         * brief Returns whether a station is available based on a set of rules.
@@ -69,7 +82,18 @@ class Bathroom {
         * - If Thomas is bathing, others can use the sinks
         */
         inline bool stationAvailable(BathroomStation station, Person user=Person::None) {
+            if (!isFree(station)) {
+                return false;
+            }
+            if (stationsRaw == 0) {
+                return true;
+            }
 
+            if (isFree(station)) {
+                if (!isFree(BathroomStation::Shower)) {
+
+                }
+            }
         }
 };
 
