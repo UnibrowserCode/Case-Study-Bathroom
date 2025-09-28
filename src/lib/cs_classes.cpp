@@ -30,9 +30,10 @@ bool Bathroom::stationAvailable(BathroomStation station, Person user) const {
     if (!isFree(station)) return false;
     if (stations == 0) return true;
     // Mom + Dad logic: only Mom and Dad in bathroom
-    if ((occupants | static_cast<uint8_t>(user)) <= 3) return true;
+    if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(Person::Mom) | static_cast<uint8_t>(Person::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(Person::Mom | Person::Dad)) == 0) return true;
     // Otherwise, normal shower rule
-    return stations & static_cast<uint8_t>(BathroomStation::Shower) ? false : true;
+    if (((static_cast<uint8_t>(station) & ~static_cast<uint8_t>(BathroomStation::Shower)) | occupants) != 0) return false;
+    return !(stations & static_cast<uint8_t>(BathroomStation::Shower));
 }
 
 } // namespace bathroom_api

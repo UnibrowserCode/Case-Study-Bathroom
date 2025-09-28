@@ -72,15 +72,15 @@ enum class BathroomStation : uint8_t {
     None   = 0,       // 00000000          // # 0
     Sink1  = 1 << 0,  // 00000001 (bit 1)  // # 1
     Sink2  = 1 << 1,  // 00000010 (bit 1)  // # 2
-    Tub    = 1 << 2,  // 00001000 (bit 3)  // # 4
-    Shower = 1 << 3   // 00000100 (bit 2)  // # 8
+    Tub    = 1 << 2,  // 00000100 (bit 3)  // # 4
+    Shower = 1 << 3   // 00001000 (bit 2)  // # 8
 };
 
 
 class Bathroom {
     private:
-        uint8_t stations;
-        uint8_t occupants;
+        uint8_t stations;  // 00001000
+        uint8_t occupants; // 00000100
     public:
         Bathroom(uint8_t stations_=0, uint8_t occupants_=0) {  // Optional params for loading a non-empty bathroom
             stations = stations_;
@@ -117,10 +117,10 @@ class Bathroom {
             }
             // Mom + Dad = 3, everyone else's baseline values are above 3.
             // If only mom and/or dad are in the bathroom, everything is open.
-            if ((occupants & ~static_cast<uint8_t>(Person::Mom | Person::Dad)) == 0) {
+            if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(Person::Mom) | static_cast<uint8_t>(Person::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(Person::Mom | Person::Dad)) == 0) {
                 return true;
             }
-            return stations & static_cast<uint8_t>(BathroomStation::Shower); // Shower is the cutoff value. It should be the highest value of all the bathroom stations
+            return !(stations & static_cast<uint8_t>(BathroomStation::Shower)); // Shower is the cutoff value. It should be the highest value of all the bathroom stations
         }
 };
 
