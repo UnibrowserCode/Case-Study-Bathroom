@@ -9,7 +9,7 @@ Bathroom::Bathroom(uint8_t stations_, uint8_t occupants_) {
 }
 
 // Check if a station is free
-bool Bathroom::isFree(BathroomStation station) const {
+inline bool Bathroom::isFree(BathroomStation station) const {
     return !(static_cast<uint8_t>(station) & stations);
 }
 
@@ -26,14 +26,19 @@ void Bathroom::releaseStation(BathroomStation station, Person user) {
 }
 
 // Check availability of a station according to your rules
-bool Bathroom::stationAvailable(BathroomStation station, Person user) const {
+inline bool Bathroom::stationAvailable(BathroomStation station, Person user) const {
+    constexpr uint8_t momDadMask = static_cast<uint8_t>(Person::Mom) | static_cast<uint8_t>(Person::Dad);
     if (!isFree(station)) return false;
-    if (stations == 0) return true;
-    // Mom + Dad logic: only Mom and Dad in bathroom
-    if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(Person::Mom) | static_cast<uint8_t>(Person::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(Person::Mom | Person::Dad)) == 0) return true;
-    // Otherwise, normal shower rule
-    if (((static_cast<uint8_t>(station) & ~static_cast<uint8_t>(BathroomStation::Shower)) | occupants) != 0) return false;
+    if (!stations) return true;
+    // Mom + Dad logic
+    if ((static_cast<uint8_t>(user) & momDadMask) && !(occupants & ~momDadMask)) return true;
+    // Shower logic
+    if ((static_cast<uint8_t>(station) & ~static_cast<uint8_t>(BathroomStation::Shower)) | occupants) return false;
     return !(stations & static_cast<uint8_t>(BathroomStation::Shower));
+}
+
+inline bool Bathroom::isUsingStation(Person user) const {
+    return occupants & static_cast<uint8_t>(user);
 }
 
 } // namespace bathroom_api

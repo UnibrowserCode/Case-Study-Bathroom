@@ -49,14 +49,14 @@ class Bathroom {
 public:  // <--- stations and occupants public
     uint8_t stations;
     uint8_t occupants;
-
 public:
     Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0);
 
-    bool isFree(BathroomStation station) const;
+    inline bool isFree(BathroomStation station) const;
     void takeStation(BathroomStation station, Person user);
     void releaseStation(BathroomStation station, Person user);
-    bool stationAvailable(BathroomStation station, Person user) const;
+    inline bool stationAvailable(BathroomStation station, Person user) const;
+    inline bool isUsingStation(Person user) const;
 };
 
 // Schedule class
