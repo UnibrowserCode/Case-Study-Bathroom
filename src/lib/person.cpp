@@ -3,7 +3,7 @@
 #include "bathroom.h"
 #include "person.h"
 
-using namespace bathroom;
+using namespace bathroomAPI;
 
 namespace personAPI {
 
@@ -31,17 +31,17 @@ class Person {
         }
 };
 
-inline person::PersonName operator|(person::PersonName a, person::PersonName b) {
-    return static_cast<person::PersonName>(
+inline personAPI::PersonName operator|(personAPI::PersonName a, personAPI::PersonName b) {
+    return static_cast<personAPI::PersonName>(
         static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
 }
 
-inline person::PersonName operator&(person::PersonName a, person::PersonName b) {
-    return static_cast<person::PersonName>(
+inline personAPI::PersonName operator&(personAPI::PersonName a, personAPI::PersonName b) {
+    return static_cast<personAPI::PersonName>(
         static_cast<uint32_t>(a) & static_cast<uint32_t>(b));
 }
 
-inline person::PersonName& operator|=(person::PersonName& a, person::PersonName b) {
+inline personAPI::PersonName& operator|=(personAPI::PersonName& a, personAPI::PersonName b) {
     return a = a | b;
 }
 

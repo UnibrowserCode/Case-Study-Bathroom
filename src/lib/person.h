@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "bathroom.h"
 
-using namespace bathroom;
+using namespace bathroomAPI;
 
 namespace personAPI {
 
@@ -21,7 +21,7 @@ enum class PersonName : uint8_t {
 
 struct Person {
     PersonName name;
-    bathroom::BathroomStation curStation;
+    bathroomAPI::BathroomStation curStation;
 };
 
 } // namespace person_api

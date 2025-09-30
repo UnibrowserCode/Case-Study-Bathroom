@@ -6,7 +6,7 @@
 namespace scheduleAPI {
 struct Day {
     const int minutesInDay = {120};
-    bathroom::Bathroom minutes[120];
+    bathroomAPI::Bathroom minutes[120];
 };
 
 struct Week {
