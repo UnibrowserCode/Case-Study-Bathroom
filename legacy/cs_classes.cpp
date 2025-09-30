@@ -14,11 +14,11 @@ void debug(T data) {
     cout << data << "\n";
 }
 
-enum class Person : uint8_t;
+enum class PersonName : uint8_t;
 enum class BathroomStation : uint8_t;
 class Schedule;
 
-enum class Person : uint8_t {
+enum class PersonName : uint8_t {
     None    = 0,
     Mom     = 1 << 0,
     Dad     = 1 << 1,
@@ -48,19 +48,19 @@ inline BathroomStation& operator|=(BathroomStation& a, BathroomStation b) {
 }
 
 
-//| Person operator overloads
+//| PersonName operator overloads
 
-inline Person operator|(Person a, Person b) {
-    return static_cast<Person>(
+inline PersonName operator|(PersonName a, PersonName b) {
+    return static_cast<PersonName>(
         static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
 }
 
-inline Person operator&(Person a, Person b) {
-    return static_cast<Person>(
+inline PersonName operator&(PersonName a, PersonName b) {
+    return static_cast<PersonName>(
         static_cast<uint32_t>(a) & static_cast<uint32_t>(b));
 }
 
-inline Person& operator|=(Person& a, Person b) {
+inline PersonName& operator|=(PersonName& a, PersonName b) {
     return a = a | b;
 }
 
@@ -89,11 +89,11 @@ class Bathroom {
         inline bool isFree(BathroomStation station) const {
             return !(static_cast<uint8_t>(station) & stations);
         }
-        void takeStation(BathroomStation station, Person user) {
+        void takeStation(BathroomStation station, PersonName user) {
             stations |= static_cast<uint8_t>(station);
             occupants |= static_cast<uint8_t>(user);
         }
-        void releaseStation(BathroomStation station, Person user) {
+        void releaseStation(BathroomStation station, PersonName user) {
             stations &= ~static_cast<uint8_t>(station);
             occupants &= ~static_cast<uint8_t>(user);
         }
@@ -108,7 +108,7 @@ class Bathroom {
         * - Mom and Dad can be in the bathroom together even while one is showering
         * - If Thomas is bathing, others can use the sinks
         */
-        inline bool stationAvailable(BathroomStation station, Person user) {
+        inline bool stationAvailable(BathroomStation station, PersonName user) {
             if (!isFree(station)) {
                 return false;
             }
@@ -117,7 +117,7 @@ class Bathroom {
             }
             // Mom + Dad = 3, everyone else's baseline values are above 3.
             // If only mom and/or dad are in the bathroom, everything is open.
-            if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(Person::Mom) | static_cast<uint8_t>(Person::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(Person::Mom | Person::Dad)) == 0) {
+            if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(PersonName::Mom) | static_cast<uint8_t>(PersonName::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(PersonName::Mom | PersonName::Dad)) == 0) {
                 return true;
             }
             return !(stations & static_cast<uint8_t>(BathroomStation::Shower)); // Shower is the cutoff value. It should be the highest value of all the bathroom stations
@@ -133,7 +133,7 @@ Resource
  ├─ id: string
  └─ conflicts: vector<Resource*>
 
-Person
+PersonName
  ├─ name: string
  └─ tasks: vector<Task>
 
@@ -145,13 +145,13 @@ Schedule
  └─ entries: vector<ScheduleEntry>
 
 ScheduleEntry
- ├─ person: Person*
+ ├─ person: PersonName*
  ├─ task: Task*
  ├─ startTime: int
  └─ endTime: int
 
 Scheduler
  ├─ bathroom: Bathroom
- ├─ people: vector<Person>
+ ├─ people: vector<PersonName>
  └─ findBestSchedule(): Schedule
  */
