@@ -1,8 +1,10 @@
 #pragma once
 #include "globals.h"
 #include "person.h"
+#include <array>
 
 using namespace personAPI;
+using namespace std;
 
 namespace bathroomAPI {
 
@@ -20,18 +22,14 @@ enum class BathroomStation : uint8_t {
     Shower = 1 << 3
 };
 
-struct Occupation {
-    Person people[8] = {};
-};
-
 // Bathroom class declaration
 class Bathroom {
 public:  // <--- stations and occupants public
     uint8_t stations;
     uint8_t occupants;
-    Occupation occupation = {};
+    array<Person, 8> occupation = {};
 public:
-    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, Occupation occupation_ = {});
+    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, array<Person, 8> occupation_ = {});
     inline bool isFree(BathroomStation station) const;
     void takeStation(BathroomStation station, PersonName user);
     void releaseStation(BathroomStation station, PersonName user);

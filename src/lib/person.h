@@ -1,10 +1,18 @@
 #pragma once
 #include "globals.h"
 #include "bathroom.h"
+#include <vector>
 
 using namespace bathroomAPI;
+using namespace std;
 
 namespace personAPI {
+
+struct Task {
+    BathroomStation station;
+    int timeRequired;
+    bool completed;
+};
 
 // Person enum
 enum class PersonName : uint8_t {
@@ -21,7 +29,9 @@ enum class PersonName : uint8_t {
 
 struct Person {
     PersonName name;
-    bathroomAPI::BathroomStation curStation;
+    BathroomStation curStation;
+    int timeLeftUsing;
+    vector<Task> tasks;
 };
 
 } // namespace person_api

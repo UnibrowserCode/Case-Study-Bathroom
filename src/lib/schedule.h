@@ -10,7 +10,7 @@ struct Day {
 };
 
 struct Week {
-    const int daysInWeek = {120};
+    const int daysInWeek = {5}; // 5 School Days
     Day days[7];
 };
 

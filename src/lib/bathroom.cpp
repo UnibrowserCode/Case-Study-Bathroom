@@ -1,10 +1,11 @@
 #include "bathroom.h"
 #include "person.h"
+#include <array>
 
 namespace bathroomAPI {
 
 // Bathroom constructor
-Bathroom::Bathroom(uint8_t stations_, uint8_t occupants_, Occupation occupation_) {
+Bathroom::Bathroom(uint8_t stations_, uint8_t occupants_, array<Person, 8> occupation_) {
     stations = stations_;
     occupants = occupants_;
     occupation = occupation_;

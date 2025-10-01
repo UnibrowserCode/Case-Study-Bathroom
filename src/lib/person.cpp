@@ -2,13 +2,20 @@
 #include "globals.h"
 #include "bathroom.h"
 #include "person.h"
+#include <vector>
 
 using namespace bathroomAPI;
 
 namespace personAPI {
 
+struct Task {
+    BathroomStation station;
+    int timeRequired;
+    bool completed;
+};
+
 // Person enum
-const enum class PersonName : uint8_t {
+enum class PersonName : uint8_t {
     None    = 0,
     Mom     = 1 << 0,
     Dad     = 1 << 1,
@@ -20,15 +27,11 @@ const enum class PersonName : uint8_t {
     Thomas  = 1 << 7
 };
 
-class Person {
-    private:
-    public:
-        PersonName name;
-        BathroomStation curStation;
-        Person(PersonName name_, BathroomStation curStation_) {
-            name = name_;
-            curStation = curStation_;
-        }
+struct Person {
+    PersonName name;
+    BathroomStation curStation;
+    int timeLeftUsing;
+    vector<Task> tasks;
 };
 
 inline personAPI::PersonName operator|(personAPI::PersonName a, personAPI::PersonName b) {
