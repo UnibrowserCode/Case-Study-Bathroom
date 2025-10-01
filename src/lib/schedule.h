@@ -13,5 +13,4 @@ struct Week {
     const int daysInWeek = {5}; // 5 School Days
     Day days[7];
 };
-
-}
+} // namespace scheduleAPI

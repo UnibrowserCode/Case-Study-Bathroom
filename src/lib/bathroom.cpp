@@ -5,7 +5,7 @@
 namespace bathroomAPI {
 
 // Bathroom constructor
-Bathroom::Bathroom(uint8_t stations_, uint8_t occupants_, array<Person, 8> occupation_) {
+Bathroom::Bathroom(uint8_t stations_, uint8_t occupants_, std::array<personAPI::Person, 8> occupation_) {
     stations = stations_;
     occupants = occupants_;
     occupation = occupation_;
@@ -17,23 +17,23 @@ inline bool Bathroom::isFree(BathroomStation station) const {
 }
 
 // Take a station
-void Bathroom::takeStation(BathroomStation station, PersonName user) {
+void Bathroom::takeStation(BathroomStation station, personAPI::PersonName user) {
     stations |= static_cast<uint8_t>(station);
     occupants |= static_cast<uint8_t>(user);
 }
 
 // Release a station
-void Bathroom::releaseStation(BathroomStation station, PersonName user) {
+void Bathroom::releaseStation(BathroomStation station, personAPI::PersonName user) {
     stations &= ~static_cast<uint8_t>(station);
     occupants &= ~static_cast<uint8_t>(user);
 }
 
-inline bool Bathroom::isUsingStation(PersonName user) const {
+inline bool Bathroom::isUsingStation(personAPI::PersonName user) const {
     return occupants & static_cast<uint8_t>(user);
 }
 
 // Check availability of a station according to your rules
-inline bool Bathroom::stationAvailable(BathroomStation station, PersonName user) const {
+inline bool Bathroom::stationAvailable(BathroomStation station, personAPI::PersonName user) const {
     constexpr uint8_t momDadMask = static_cast<uint8_t>(personAPI::PersonName::Mom) | static_cast<uint8_t>(personAPI::PersonName::Dad);
     if (!isFree(station) || isUsingStation(user)) return false;
     if (!stations) return true;
@@ -44,4 +44,4 @@ inline bool Bathroom::stationAvailable(BathroomStation station, PersonName user)
     return !(stations & static_cast<uint8_t>(BathroomStation::Shower));
 }
 
-} // namespace bathroom_api
+} // namespace bathroomAPI
