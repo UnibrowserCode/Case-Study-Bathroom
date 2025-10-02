@@ -25,7 +25,7 @@ public:
     // Check if a station is free (no one is using it)
     inline bool isFree(BathroomStation station) const {
         for (const auto& person : occupation) {
-            if (person.curStation == station)
+            if ((person).curStation == station)
                 return false;
         }
         return true;
@@ -34,7 +34,7 @@ public:
     // Check if a station is available for a specific user
     inline bool stationAvailable(BathroomStation station, personAPI::PersonName user) const {
         for (const auto& person : occupation) {
-            if (person.curStation == station && person.name != user)
+            if ((person).curStation == station && (person).name != user)
                 return false;
         }
         return true;
@@ -43,7 +43,7 @@ public:
     // Check if a specific user is using any station
     inline bool isUsingStation(personAPI::PersonName user) const {
         for (const auto& person : occupation) {
-            if (person.name == user && person.curStation != BathroomStation::None)
+            if ((person).name == user && (person).curStation != BathroomStation::None)
                 return true;
         }
         return false;
@@ -51,8 +51,8 @@ public:
 
     void takeStation(BathroomStation station, personAPI::PersonName user) {
         for (auto& person : occupation) {
-            if (person.name == user) {
-                person.curStation = station;
+            if ((person).name == user) {
+                (person).curStation = station;
                 break;
             }
         }
@@ -60,8 +60,8 @@ public:
 
     void releaseStation(BathroomStation station, personAPI::PersonName user) {
         for (auto& person : occupation) {
-            if (person.name == user && person.curStation == station) {
-                person.curStation = BathroomStation::None;
+            if ((person).name == user && (person).curStation == station) {
+                (person).curStation = BathroomStation::None;
                 break;
             }
         }

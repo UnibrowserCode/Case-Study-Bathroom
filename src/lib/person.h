@@ -31,9 +31,10 @@ struct Person {
     PersonName name;
     bathroomAPI::BathroomStation curStation;
     unsigned int timeLeftUsing;
-    std::array<Task, 2> tasks;
-    inline bool allTasksCompleted() {
-        return tasks[0].completed && tasks[1].completed;
+    Task task1;
+    Task task2;
+    inline bool allTasksCompleted() const {
+        return task1.completed && task2.completed;
     }
 };
 

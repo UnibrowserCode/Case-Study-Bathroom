@@ -40,48 +40,32 @@ inline string formatWithCommas(long long value) {
 
 
 //| vvv Generation vvv |//
-inline constexpr std::array<Person, 8> makeFamily() {
+inline std::array<Person, 8> makeFamily() {
     return {
         Person{PersonName::Dad, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 10, false},
-                   {BathroomStation::Sink1, 18, false}
-               }}},
+               {BathroomStation::Shower, 10, false},
+               {BathroomStation::Sink1, 18, false}},
         Person{PersonName::Mom, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 17, false},
-                   {BathroomStation::Sink1, 30, false}
-               }}},
+               {BathroomStation::Shower, 17, false},
+               {BathroomStation::Sink1, 30, false}},
         Person{PersonName::Heather, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 13, false},
-                   {BathroomStation::Sink1, 44, false}
-               }}},
+               {BathroomStation::Shower, 13, false},
+               {BathroomStation::Sink1, 44, false}},
         Person{PersonName::Nick, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 3, false},
-                   {BathroomStation::Sink1, 32, false}
-               }}},
+               {BathroomStation::Shower, 3, false},
+               {BathroomStation::Sink1, 32, false}},
         Person{PersonName::Rulon, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 7, false},
-                   {BathroomStation::Sink1, 18, false}
-               }}},
+               {BathroomStation::Shower, 7, false},
+               {BathroomStation::Sink1, 18, false}},
         Person{PersonName::George, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 3, false},
-                   {BathroomStation::Sink1, 5, false}
-               }}},
+               {BathroomStation::Shower, 3, false},
+               {BathroomStation::Sink1, 5, false}},
         Person{PersonName::Olivia, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Shower, 15, false},
-                   {BathroomStation::Sink1, 9, false}
-               }}},
+               {BathroomStation::Shower, 15, false},
+               {BathroomStation::Sink1, 9, false}},
         Person{PersonName::Thomas, BathroomStation::None, 0,
-               std::array<Task, 2>{{
-                   {BathroomStation::Tub, 25, false},
-                   {BathroomStation::Sink1, 3, false}
-               }}}
+               {BathroomStation::Tub, 25, false},
+               {BathroomStation::Sink1, 3, false}}
     };
 }
 
@@ -102,47 +86,60 @@ inline auto cmpByStationIdx = [](int a, int b) {
     return static_cast<int>(stations[a]) < static_cast<int>(stations[b]);
 };
 
-inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs) {
+inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, array<Person, 8> &family) {
     scheduleAPI::Day day = {};
     Bathroom bathroom;
-    for (int minute = 0; minute < 120; minute++) {
+    array<Person, 8> tempFamily = family; // work on this instead of family
+
+    for (int minute = 0; minute < 120; ++minute) {
         for (int &personIdx : familyIdxs) {
-            Person &person = family[personIdx];
-            person.timeLeftUsing -= person.timeLeftUsing > 0;
-            Task personTask1 = person.tasks[0];
-            Task personTask2 = person.tasks[1];
-            if (!person.timeLeftUsing && !person.allTasksCompleted()) {
+            Person &person = tempFamily[personIdx]; // changed to tempFamily
+            Task &task1 = person.task1;
+            Task &task2 = person.task2;
+
+            // decrement time if using a station
+            person.timeLeftUsing -= person.curStation != BathroomStation::None;
+
+            if (person.timeLeftUsing && !person.allTasksCompleted()) {
                 for (int &stationIdx : stationIdxs) {
-                    BathroomStation &station = stations[stationIdx];
-                    bool matchingStation = (static_cast<uint8_t>(personTask1.station) | static_cast<uint8_t>(personTask2.station)) & static_cast<uint8_t>(station);
-                    if (!person.timeLeftUsing && !(personTask1.completed && personTask2.completed) && (matchingStation)) {
-                        if (matchingStation & static_cast<uint8_t>(personTask1.station) && !personTask1.completed && bathroom.stationAvailable(personTask1.station, person.name)) {
-                            bathroom.takeStation(personTask1.station, person.name);
-                            person.timeLeftUsing = personTask1.timeRequired;
-                            person.curStation = personTask1.station;
-                        } else if (!personTask2.completed && bathroom.stationAvailable(personTask2.station, person.name)) {
-                            bathroom.takeStation(personTask2.station, person.name);
-                            person.timeLeftUsing = personTask2.timeRequired;
-                            person.curStation = personTask2.station;
-                        }
-                    } else {
-                        if (!static_cast<int>(person.curStation) && !person.timeLeftUsing) {
-                            bathroom.releaseStation(person.curStation, person.name);
-                            person.tasks[personTask1.station == person.curStation].completed = true;
-                            person.curStation = BathroomStation::None;
-                        }
+                    BathroomStation station = stations[stationIdx];
+                    // check task1 first if its station is available
+                    if (!task1.completed && task1.station == station && bathroom.stationAvailable(task1.station, person.name)) {
+                        bathroom.takeStation(task1.station, person.name);
+                        person.timeLeftUsing = task1.timeRequired;
+                        person.curStation = task1.station;
+                        break;
+                    } else if (!task2.completed && task2.station == station && bathroom.stationAvailable(task2.station, person.name)) {
+                        bathroom.takeStation(task2.station, person.name);
+                        person.timeLeftUsing = task2.timeRequired;
+                        person.curStation = task2.station;
+                        break;
                     }
                 }
+            } else if (!person.timeLeftUsing && person.curStation != BathroomStation::None) {
+                bathroom.releaseStation(person.curStation, person.name);
+                if (task1.station == person.curStation)
+                    task1.completed = true;
+                if (task2.station == person.curStation)
+                    task2.completed = true;
+                person.curStation = BathroomStation::None;
             }
         }
+
+        // save updated tempFamily to bathroom
+        bathroom.occupation = tempFamily;
+
+        // store bathroom state for this minute
         day.minutes[minute] = bathroom;
     }
+
     return day;
 }
 
-inline float scoreDay(scheduleAPI::Day day) {
-    Bathroom result = day.minutes[120];
-    for (auto &person : result.occupation) {
+inline float scoreDay(const scheduleAPI::Day &day) {
+    // Check the last minute for completion
+    const Bathroom &finalState = day.minutes.back(); // last minute
+    for (const auto& person : finalState.occupation) {
         if (!person.allTasksCompleted()) {
             return 0.0f;
         }
@@ -157,51 +154,47 @@ scheduleAPI::Day planDay() {
     float bestDayScore = -1;
     array<int, 8> familyIdxs = {0, 1, 2, 3, 4, 5, 6, 7};
     array<int, 4> stationIdxs = {0, 1, 2, 3};
-    // Sort once so next_permutation covers all possible permutations
-    Bathroom bathroom = Bathroom();
-    unsigned long int count = 0;
+    unsigned long long count = 0;
+    array<Person, 8> family = makeFamily();
+
+    sort(familyIdxs.begin(), familyIdxs.end(), cmpByNameIdx);
+    sort(stationIdxs.begin(), stationIdxs.end(), cmpByStationIdx);
     do {
         do {
-            auto day = simulateDay(familyIdxs, stationIdxs);
+            auto day = simulateDay(familyIdxs, stationIdxs, family);
             auto curScore = scoreDay(day);
+
             if (curScore > bestDayScore) {
                 bestDayScore = curScore;
                 bestDay.minutes = day.minutes;
             }
+            ++count;
         } while (next_permutation(stationIdxs.begin(), stationIdxs.end(), cmpByStationIdx));
     } while (next_permutation(familyIdxs.begin(), familyIdxs.end(), cmpByNameIdx));
+
     cout << "Total iterations: " << formatWithCommas(count) << "\n";
     return bestDay;
 }
 
-inline string formatBathroom(Bathroom bathroom) {
-    string output = "";
-    for (Person occupant : bathroom.occupation) {
-        output += to_string(occupant.name) + ": " + to_string(occupant.curStation);
+inline string formatBathroom(const Bathroom &bathroom) {
+    string output;
+    for (const Person& occupant : bathroom.occupation) {
+        output += to_string(occupant.name) + ": " + to_string(occupant.curStation) + ",  ";
     }
-    return output;
+    return output + "\n";
 }
 
-inline string formatDay(scheduleAPI::Day day) {
+inline string formatDay(scheduleAPI::Day &day) {
     string output = "";
-    for (Bathroom bathroom : day.minutes) {
+    for (const Bathroom &bathroom : day.minutes) {
         output += formatBathroom(bathroom) + "\n";
     }
-    return output;
+    return output + "\n";
 }
 
 
 int main() {
     Bathroom bathroom;
-    Person mom     = {personAPI::PersonName::Mom,     BathroomStation::None, 0, {}};
-    Person dad     = {personAPI::PersonName::Dad,     BathroomStation::None, 0, {}};
-    Person heather = {personAPI::PersonName::Heather, BathroomStation::None, 0, {}};
-    Person nick    = {personAPI::PersonName::Nick,    BathroomStation::None, 0, {}};
-    Person rulon   = {personAPI::PersonName::Rulon,   BathroomStation::None, 0, {}};
-    Person george  = {personAPI::PersonName::George,  BathroomStation::None, 0, {}};
-    Person olivia  = {personAPI::PersonName::Olivia,  BathroomStation::None, 0, {}};
-    Person thomas  = {personAPI::PersonName::Thomas,  BathroomStation::None, 0, {}};
-    array<Person, 8> people = {mom, dad, heather, nick, rulon, george, olivia, thomas};
 
     scheduleAPI::Week schedule = {};
     auto start = chrono::high_resolution_clock::now();
@@ -213,7 +206,6 @@ int main() {
     cout << "Took " << formatWithCommas(duration_ms.count()) << " milliseconds\n";
     cout << "(" << formatWithCommas(3715891200 / duration_ms.count()) << " calculations/ms)\n";
     ofstream outputFile("save.txt");
-    outputFile.open("save.txt");
     if (outputFile.is_open()) {
         outputFile << formatDay(day);
         cout << "Saved file!";
