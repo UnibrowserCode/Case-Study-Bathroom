@@ -3,11 +3,7 @@
 #include "person.h"
 #include <array>
 
-
 namespace bathroomAPI {
-
-enum class BathroomStation : uint8_t;
-class Schedule;
 
 enum class BathroomStation : uint8_t {
     None   = 0,
@@ -22,15 +18,58 @@ public:
     uint8_t stations;
     uint8_t occupants;
     std::array<personAPI::Person, 8> occupation = {};
+
 public:
-    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, std::array<personAPI::Person, 8> occupation_ = {});
-    inline bool isFree(BathroomStation station) const;
-    void takeStation(BathroomStation station, personAPI::PersonName user);
-    void releaseStation(BathroomStation station, personAPI::PersonName user);
-    inline bool stationAvailable(BathroomStation station, personAPI::PersonName user) const;
-    inline bool isUsingStation(personAPI::PersonName user) const;
+    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, std::array<personAPI::Person, 8> occupation_ = {})
+        : stations(stations_), occupants(occupants_), occupation(occupation_) {}
+
+    // Check if a station is free (no one is using it)
+    inline bool isFree(BathroomStation station) const {
+        for (const auto& person : occupation) {
+            if (person.curStation == station)
+                return false;
+        }
+        return true;
+    }
+
+    // Check if a station is available for a specific user
+    inline bool stationAvailable(BathroomStation station, personAPI::PersonName user) const {
+        for (const auto& person : occupation) {
+            if (person.curStation == station && person.name != user)
+                return false;
+        }
+        return true;
+    }
+
+    // Check if a specific user is using any station
+    inline bool isUsingStation(personAPI::PersonName user) const {
+        for (const auto& person : occupation) {
+            if (person.name == user && person.curStation != BathroomStation::None)
+                return true;
+        }
+        return false;
+    }
+
+    void takeStation(BathroomStation station, personAPI::PersonName user) {
+        for (auto& person : occupation) {
+            if (person.name == user) {
+                person.curStation = station;
+                break;
+            }
+        }
+    }
+
+    void releaseStation(BathroomStation station, personAPI::PersonName user) {
+        for (auto& person : occupation) {
+            if (person.name == user && person.curStation == station) {
+                person.curStation = BathroomStation::None;
+                break;
+            }
+        }
+    }
 };
 
+// Operator overloads
 inline BathroomStation operator|(BathroomStation a, BathroomStation b) {
     return static_cast<BathroomStation>(
         static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
