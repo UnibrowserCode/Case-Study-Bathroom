@@ -1,7 +1,7 @@
 #pragma once
+#include <array>
 #include "globals.h"
 #include "person.h"
-#include <array>
 
 namespace bathroomAPI {
 
@@ -18,7 +18,6 @@ public:
     uint8_t stations;
     uint8_t occupants;
     std::array<personAPI::Person, 8> occupation = {};
-
 public:
     Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, std::array<personAPI::Person, 8> occupation_ = {})
         : stations(stations_), occupants(occupants_), occupation(occupation_) {}
@@ -68,6 +67,18 @@ public:
         }
     }
 };
+
+// Option 2: to_string (use std::string s = to_string(name);)
+inline std::string to_string(BathroomStation station) {
+    switch (station) {
+        case BathroomStation::None:   return "None";
+        case BathroomStation::Shower: return "Shower";
+        case BathroomStation::Sink1:  return "Sink1";
+        case BathroomStation::Sink2:  return "Sink2";
+        case BathroomStation::Tub:    return "Bathtub";
+        default:                      return "Unknown";
+    }
+}
 
 // Operator overloads
 inline BathroomStation operator|(BathroomStation a, BathroomStation b) {

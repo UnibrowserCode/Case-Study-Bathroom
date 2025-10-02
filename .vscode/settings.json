@@ -4,6 +4,11 @@
         "vector": "cpp",
         "array": "cpp",
         "iostream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "xutility": "cpp",
+        "string": "cpp"
     }
 }

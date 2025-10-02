@@ -1,7 +1,6 @@
 #pragma once
-#include "globals.h"
-#include <vector>
 #include <array>
+#include "globals.h"
 
 namespace bathroomAPI {
     enum class BathroomStation : uint8_t;
@@ -31,8 +30,41 @@ enum class PersonName : uint8_t {
 struct Person {
     PersonName name;
     bathroomAPI::BathroomStation curStation;
-    int timeLeftUsing;
+    unsigned int timeLeftUsing;
     std::array<Task, 2> tasks;
+    inline bool allTasksCompleted() {
+        return tasks[0].completed && tasks[1].completed;
+    }
 };
+
+// Option 2: to_string (use std::string s = to_string(name);)
+inline std::string to_string(PersonName name) {
+    switch (name) {
+        case PersonName::None:    return "None";
+        case PersonName::Mom:     return "Mom";
+        case PersonName::Dad:     return "Dad";
+        case PersonName::Heather: return "Heather";
+        case PersonName::Nick:    return "Nick";
+        case PersonName::Rulon:   return "Rulon";
+        case PersonName::George:  return "George";
+        case PersonName::Olivia:  return "Olivia";
+        case PersonName::Thomas:  return "Thomas";
+        default:                  return "Unknown";
+    }
+}
+
+inline personAPI::PersonName operator|(personAPI::PersonName a, personAPI::PersonName b) {
+    return static_cast<personAPI::PersonName>(
+        static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
+}
+
+inline personAPI::PersonName operator&(personAPI::PersonName a, personAPI::PersonName b) {
+    return static_cast<personAPI::PersonName>(
+        static_cast<uint32_t>(a) & static_cast<uint32_t>(b));
+}
+
+inline personAPI::PersonName& operator|=(personAPI::PersonName& a, personAPI::PersonName b) {
+    return a = a | b;
+}
 
 } // namespace personAPI
