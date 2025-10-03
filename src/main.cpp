@@ -92,15 +92,26 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
     array<Person, 8> tempFamily = family; // work on this instead of family
 
     for (int minute = 0; minute < 120; ++minute) {
-        for (int &personIdx : familyIdxs) {
+        for (int personIdx = 0; personIdx < 8; personIdx++) {
             Person &person = tempFamily[personIdx]; // changed to tempFamily
             Task &task1 = person.task1;
             Task &task2 = person.task2;
 
             // decrement time if using a station
-            person.timeLeftUsing -= person.curStation != BathroomStation::None;
-
-            if (person.timeLeftUsing && !person.allTasksCompleted()) {
+            if (person.curStation != BathroomStation::None) {
+                    person.timeLeftUsing -= 1;
+                if (person.timeLeftUsing <= 0) {
+                    // cout << "RELEASING " << to_string(person.curStation) << "\n";
+                    bathroom.releaseStation(person.curStation, person.name);
+                    if (task1.station == person.curStation)
+                        task1.completed = true;
+                    if (task2.station == person.curStation)
+                        task2.completed = true;
+                    person.curStation = BathroomStation::None;
+                }
+                bathroom.occupation[personIdx] = person;
+            }
+            if (!person.timeLeftUsing && !person.allTasksCompleted()) {
                 for (int &stationIdx : stationIdxs) {
                     BathroomStation station = stations[stationIdx];
                     // check task1 first if its station is available
@@ -108,31 +119,23 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
                         bathroom.takeStation(task1.station, person.name);
                         person.timeLeftUsing = task1.timeRequired;
                         person.curStation = task1.station;
+                        // cout << to_string(person.name) << " TOOK: " << to_string(task1.station) << " FOR " << person.timeLeftUsing << "\n";
+                        bathroom.occupation[personIdx] = person;
                         break;
                     } else if (!task2.completed && task2.station == station && bathroom.stationAvailable(task2.station, person.name)) {
                         bathroom.takeStation(task2.station, person.name);
                         person.timeLeftUsing = task2.timeRequired;
                         person.curStation = task2.station;
+                        // cout << to_string(person.name) << " TOOK: " << to_string(task2.station) << " FOR " << person.timeLeftUsing << "\n";
+                        bathroom.occupation[personIdx] = person;
                         break;
-                    }
+                    }                    
                 }
-            } else if (!person.timeLeftUsing && person.curStation != BathroomStation::None) {
-                bathroom.releaseStation(person.curStation, person.name);
-                if (task1.station == person.curStation)
-                    task1.completed = true;
-                if (task2.station == person.curStation)
-                    task2.completed = true;
-                person.curStation = BathroomStation::None;
             }
         }
-
-        // save updated tempFamily to bathroom
-        bathroom.occupation = tempFamily;
-
         // store bathroom state for this minute
         day.minutes[minute] = bathroom;
     }
-
     return day;
 }
 
@@ -181,7 +184,7 @@ inline string formatBathroom(const Bathroom &bathroom) {
     for (const Person& occupant : bathroom.occupation) {
         output += to_string(occupant.name) + ": " + to_string(occupant.curStation) + ",  ";
     }
-    return output + "\n";
+    return output;
 }
 
 inline string formatDay(scheduleAPI::Day &day) {
@@ -189,7 +192,7 @@ inline string formatDay(scheduleAPI::Day &day) {
     for (const Bathroom &bathroom : day.minutes) {
         output += formatBathroom(bathroom) + "\n";
     }
-    return output + "\n";
+    return output;
 }
 
 

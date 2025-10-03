@@ -1,241 +1,120 @@
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
-
-
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: Sink1,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Shower,  None: None,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: Shower,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: Shower,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: Shower,  None: None,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: Shower,  None: None,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: Shower,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: Shower,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: Shower,  None: None,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: Shower,  None: None,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: Shower,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: Sink1,  Nick: None,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: Bathtub,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: Sink1,  Rulon: None,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  
+Dad: None,  Mom: None,  Heather: None,  Nick: None,  Rulon: Sink1,  George: None,  Olivia: None,  Thomas: None,  

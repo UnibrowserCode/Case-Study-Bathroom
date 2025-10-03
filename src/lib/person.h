@@ -30,7 +30,7 @@ enum class PersonName : uint8_t {
 struct Person {
     PersonName name;
     bathroomAPI::BathroomStation curStation;
-    unsigned int timeLeftUsing;
+    int timeLeftUsing;
     Task task1;
     Task task2;
     inline bool allTasksCompleted() const {
