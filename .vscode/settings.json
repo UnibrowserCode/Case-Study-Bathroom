@@ -9,6 +9,8 @@
         "forward_list": "cpp",
         "initializer_list": "cpp",
         "xutility": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "thread": "cpp",
+        "mutex": "cpp"
     }
 }

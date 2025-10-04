@@ -24,8 +24,8 @@ public:
         : stations(stations_), occupants(occupants_), occupation(occupation_) {}
 
         // Check if a station is free (no one is using it)
-        inline bool isTaken(BathroomStation &station) const {
-            return static_cast<uint8_t>(station) & stations;
+        inline bool isTaken(uint8_t &station) const {
+            return station & stations;
         }
         void takeStation(BathroomStation &station, personAPI::PersonName &user) {
             stations |= static_cast<uint8_t>(station);
@@ -35,8 +35,8 @@ public:
             stations &= ~static_cast<uint8_t>(station);
             occupants &= ~static_cast<uint8_t>(user);
         }
-        inline bool isUsingStation(personAPI::PersonName &user) const {
-            return occupants & static_cast<uint8_t>(user);
+        inline bool isUsingStation(uint8_t &user) const {
+            return occupants & user;
         }
         /*
         * Returns whether a station is available based on a set of rules.
@@ -50,15 +50,16 @@ public:
         * - If Thomas is bathing, others can use the sinks
         */
         inline bool stationAvailable(BathroomStation &station, personAPI::PersonName &user) {
-            if (isTaken(station)) return false;
-            if (isUsingStation(user)) return false;
+            constexpr uint8_t momDadMask = static_cast<uint8_t>(personAPI::PersonName::Mom) | static_cast<uint8_t>(personAPI::PersonName::Dad);
+            uint8_t userUint = static_cast<uint8_t>(user);
+            uint8_t stationUint = static_cast<uint8_t>(station);
+            if (isTaken(stationUint)) return false;
+            if (isUsingStation(userUint)) return false;
             if (!stations) return true;
             // Mom + Dad = 3, everyone else's baseline values are above 3.
             // If only mom and/or dad are in the bathroom, everything is open.
-            if ((static_cast<uint8_t>(user) & (static_cast<uint8_t>(personAPI::PersonName::Mom) | static_cast<uint8_t>(personAPI::PersonName::Dad))) != 0 && (occupants & ~static_cast<uint8_t>(personAPI::PersonName::Mom | personAPI::PersonName::Dad)) == 0) {
-                return true;
-            }
-            return !(stations & static_cast<uint8_t>(BathroomStation::Shower)); // Shower is the cutoff value. It should be the highest value of all the bathroom stations
+            if (userUint & momDadMask && !(occupants & ~momDadMask)) return true;
+            return !(stations & static_cast<uint8_t>(BathroomStation::Shower)) && !(station == BathroomStation::Shower);
         }
 };
 // Option 2: to_string (use std::string s = to_string(name);)

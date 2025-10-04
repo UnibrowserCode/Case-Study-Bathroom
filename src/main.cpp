@@ -7,6 +7,10 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
+#include <vector>
+#include <thread>
+#include <mutex>
+#include <atomic>
 
 using namespace std;
 using namespace bathroomAPI;
@@ -40,36 +44,36 @@ inline string formatWithCommas(long long value) {
 
 
 //| vvv Generation vvv |//
-inline std::array<Person, 8> makeFamily() {
+inline array<Person, 8> baseFamily() {
     return {
         Person{PersonName::Dad, BathroomStation::None, 0,
                {BathroomStation::Shower, 10, false},
                {BathroomStation::Sink1, 18, false}},
         Person{PersonName::Mom, BathroomStation::None, 0,
                {BathroomStation::Shower, 17, false},
-               {BathroomStation::Sink1, 30, false}},
+               {BathroomStation::Sink2, 30, false}},
         Person{PersonName::Heather, BathroomStation::None, 0,
                {BathroomStation::Shower, 13, false},
                {BathroomStation::Sink1, 44, false}},
         Person{PersonName::Nick, BathroomStation::None, 0,
                {BathroomStation::Shower, 3, false},
-               {BathroomStation::Sink1, 32, false}},
+               {BathroomStation::Sink2, 32, false}},
         Person{PersonName::Rulon, BathroomStation::None, 0,
                {BathroomStation::Shower, 7, false},
                {BathroomStation::Sink1, 18, false}},
         Person{PersonName::George, BathroomStation::None, 0,
                {BathroomStation::Shower, 3, false},
-               {BathroomStation::Sink1, 5, false}},
+               {BathroomStation::Sink2, 5, false}},
         Person{PersonName::Olivia, BathroomStation::None, 0,
                {BathroomStation::Shower, 15, false},
                {BathroomStation::Sink1, 9, false}},
         Person{PersonName::Thomas, BathroomStation::None, 0,
                {BathroomStation::Tub, 25, false},
-               {BathroomStation::Sink1, 3, false}}
+               {BathroomStation::Sink2, 0, true}}
     };
 }
 
-array<Person, 8> family = makeFamily();
+array<Person, 8> family;
 
 array<BathroomStation, 4> stations = {
     BathroomStation::Shower,
@@ -86,14 +90,17 @@ inline auto cmpByStationIdx = [](int a, int b) {
     return static_cast<int>(stations[a]) < static_cast<int>(stations[b]);
 };
 
-inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, array<Person, 8> &family) {
+inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, const array<Person, 8> &family) {
     scheduleAPI::Day day = {};
     Bathroom bathroom;
     array<Person, 8> tempFamily = family; // work on this instead of family
+    constexpr uint8_t showerTubMask = static_cast<uint8_t>(BathroomStation::Shower) | static_cast<uint8_t>(BathroomStation::Tub);
+    constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Mom) | static_cast<uint8_t>(PersonName::Dad);
 
     for (int minute = 0; minute < 120; ++minute) {
         for (int personIdx = 0; personIdx < 8; personIdx++) {
             Person &person = tempFamily[personIdx]; // changed to tempFamily
+            uint8_t personUint = static_cast<uint8_t>(person.name);
             Task &task1 = person.task1;
             Task &task2 = person.task2;
 
@@ -101,7 +108,6 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
             if (person.curStation != BathroomStation::None) {
                     person.timeLeftUsing -= 1;
                 if (person.timeLeftUsing <= 0) {
-                    // cout << "RELEASING " << to_string(person.curStation) << "\n";
                     bathroom.releaseStation(person.curStation, person.name);
                     if (task1.station == person.curStation)
                         task1.completed = true;
@@ -113,6 +119,10 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
             }
             if (!person.timeLeftUsing && !person.allTasksCompleted()) {
                 for (int &stationIdx : stationIdxs) {
+                    if (minute < 45) {
+                        if (static_cast<uint8_t>(stations[stationIdx]) & showerTubMask) break;
+                        if (personUint & momDadMask) break;
+                    }
                     BathroomStation station = stations[stationIdx];
                     // check task1 first if its station is available
                     if (!task1.completed && task1.station == station && bathroom.stationAvailable(task1.station, person.name)) {
@@ -139,29 +149,64 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
     return day;
 }
 
-inline float scoreDay(const scheduleAPI::Day &day) {
+inline int scoreDay(const scheduleAPI::Day &day) {
     // Check the last minute for completion
+    int score = 0;
     const Bathroom &finalState = day.minutes.back(); // last minute
     for (const auto& person : finalState.occupation) {
-        if (!person.allTasksCompleted()) {
-            return 0.0f;
-        }
+        score += person.task1.completed + person.task2.completed;
     }
-    cout << "Found day with correct schedule!\n";
-    return 10.0f;
+    return score;
 }
 
+vector<array<Person, 8>> generateSinkCombinations() {
+    vector<array<Person, 8>> combinations;
+    const int numPeople = 7; // excluding Thomas
+    int maxChoice = 1;       // 0 = Sink1, 1 = Sink2
 
-scheduleAPI::Day planDay() {
+    array<int, numPeople> choices = {}; // all start at Sink1
+
+    while (true) {
+        int sink1Count = 0, sink2Count = 0;
+        for (int c : choices) {
+            if (c == 0) sink1Count++;
+            else sink2Count++;
+        }
+        array<Person, 8> fam = baseFamily();
+        // Assign sink choice to each person (0..6)
+        for (int i = 0; i < numPeople; ++i) {
+            fam[i].task2.station = choices[i] == 0 ? BathroomStation::Sink1
+                                                   : BathroomStation::Sink2;
+        }
+        // Thomas always has Sink2 (as in your original baseFamily)
+        fam[7].task2.station = BathroomStation::Sink2;
+
+        combinations.push_back(fam);
+        // Increment binary counter
+        int idx = 0;
+        while (idx < numPeople) {
+            if (choices[idx] < maxChoice) {
+                choices[idx]++;
+                break;
+            } else {
+                choices[idx] = 0;
+                idx++;
+            }
+        }
+        if (idx == numPeople) break; // finished all combinations
+    }
+    return combinations;
+}
+
+scheduleAPI::Day planDay(const array<Person, 8> &family) {
     scheduleAPI::Day bestDay = {};
     float bestDayScore = -1;
     array<int, 8> familyIdxs = {0, 1, 2, 3, 4, 5, 6, 7};
     array<int, 4> stationIdxs = {0, 1, 2, 3};
-    unsigned long long count = 0;
-    array<Person, 8> family = makeFamily();
+    unsigned long count = 0;
 
-    sort(familyIdxs.begin(), familyIdxs.end(), cmpByNameIdx);
-    sort(stationIdxs.begin(), stationIdxs.end(), cmpByStationIdx);
+    sort(familyIdxs.begin(), familyIdxs.end());
+    sort(stationIdxs.begin(), stationIdxs.end());
     do {
         do {
             auto day = simulateDay(familyIdxs, stationIdxs, family);
@@ -171,11 +216,11 @@ scheduleAPI::Day planDay() {
                 bestDayScore = curScore;
                 bestDay.minutes = day.minutes;
             }
-            ++count;
-        } while (next_permutation(stationIdxs.begin(), stationIdxs.end(), cmpByStationIdx));
-    } while (next_permutation(familyIdxs.begin(), familyIdxs.end(), cmpByNameIdx));
+            count++;
+        } while (next_permutation(stationIdxs.begin(), stationIdxs.end()));
+    } while (next_permutation(familyIdxs.begin(), familyIdxs.end()));
 
-    cout << "Total iterations: " << formatWithCommas(count) << "\n";
+    cout << "\nTotal iterations: " << formatWithCommas(count) << "\n";
     return bestDay;
 }
 
@@ -195,24 +240,65 @@ inline string formatDay(scheduleAPI::Day &day) {
     return output;
 }
 
+mutex mtx;
+scheduleAPI::Day correctDay;
+int correctDayScore;
+atomic<bool> found = false;
+
+void worker(const array<Person, 8> &family) {
+    array<Person, 8> familyCopy = family;  // local copy for thread safety
+    scheduleAPI::Day day = planDay(familyCopy);
+    int score = scoreDay(day);
+    lock_guard<mutex> guard(mtx);
+    if (!found.load()) { 
+        if (score > correctDayScore) {
+            correctDay.minutes = day.minutes;  // save the solution
+            found = true;      // signal other threads
+        }
+    }
+}
 
 int main() {
     Bathroom bathroom;
 
     scheduleAPI::Week schedule = {};
-    auto start = chrono::high_resolution_clock::now();
-    scheduleAPI::Day day = planDay();
-    auto end = chrono::high_resolution_clock::now();
-    auto duration_second = chrono::duration_cast<chrono::seconds>(end - start);
-    auto duration_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
-    cout << "Took " << duration_second.count() << " seconds\n";
-    cout << "Took " << formatWithCommas(duration_ms.count()) << " milliseconds\n";
-    cout << "(" << formatWithCommas(3715891200 / duration_ms.count()) << " calculations/ms)\n";
-    ofstream outputFile("save.txt");
-    if (outputFile.is_open()) {
-        outputFile << formatDay(day);
-        cout << "Saved file!";
+    auto combos = generateSinkCombinations();
+    cout << "Generated " << combos.size() << " sink combinations.\n";
+    vector<thread> threads;
+    for (int i = 0; i < 70; i++) {
+        threads.push_back(thread(worker, combos[i]));
+        if (found) break;
     }
+    for (auto &t : threads) {
+        t.join();
+    }
+    // auto end = chrono::high_resolution_clock::now();
+    // auto duration_second = chrono::duration_cast<chrono::seconds>(end - start);
+    // auto duration_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
+    // cout << "Took " << duration_second.count() << " seconds\n";
+    // cout << "Took " << formatWithCommas(duration_ms.count()) << " milliseconds\n";
+    // cout << "(" << formatWithCommas(3715891200 / duration_ms.count()) << " calculations/ms)\n";
+    if (found) {
+        ofstream outputFile("save.txt");
+        if (outputFile.is_open()) {
+            outputFile << formatDay(correctDay);
+            cout << "Score: " << scoreDay(correctDay) << "/16\n";
+            cout << "Saved file!\n";
+        }
+        cout << correctDayScore << "\n";
+        const Bathroom &finalState = correctDay.minutes.back(); // last minute
+        for (const auto& person : finalState.occupation) {
+            if (!person.task1.completed) {
+                cout << to_string(person.name) << " did not complete " << to_string(person.task1.station) << "\n";
+            }
+            if (!person.task2.completed) {
+                cout << to_string(person.name) << " did not complete " << to_string(person.task1.station) << "\n";
+            }
+        }
+    } else {
+        cout << "DID NOT FIND CORRECT DAY\n";
+    }
+
     // for (int i = 0; i < sizeof())
     return 0;
 }
