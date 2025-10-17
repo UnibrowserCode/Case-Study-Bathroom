@@ -33,9 +33,12 @@ struct Person {
     int timeLeftUsing;
     Task task1;
     Task task2;
+    Task task3;
+    bathroomAPI::BathroomStation prevStation;
     inline bool allTasksCompleted() const {
         return task1.completed && task2.completed;
     }
+    int timeTillLeave = 460;
 };
 
 // Option 2: to_string (use std::string s = to_string(name);)

@@ -6,8 +6,8 @@
 
 namespace scheduleAPI {
 struct Day {
-    const int minutesInDay = {120};
-    std::array<bathroomAPI::Bathroom, 120> minutes;
+    const int minutesInDay = {135};
+    std::array<bathroomAPI::Bathroom, 135> minutes;
 };
 
 struct Week {
