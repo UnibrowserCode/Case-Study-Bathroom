@@ -33,11 +33,6 @@ struct TimeDataHolder {
     unsigned short meetingEnd = 410;  // minutes from midnight until 6:45 AM
 };
 
-struct SimResult {
-    scheduleAPI::Day day;
-    std::array<Person, 8> finalFamily;
-};
-
 // MARK: Utilites
 
 //| vvv Utilities vvv |//
@@ -64,8 +59,8 @@ inline string formatWithCommas(long long value) {
 
 // MARK: Person Gen
 //| vvv Generation vvv |//
-inline array<Person, 8> baseFamily() {
-    return {
+inline Family baseFamily() {
+    return Family({
         Person{
             PersonName::Dad, 
             BathroomStation::None, 0,
@@ -130,13 +125,13 @@ inline array<Person, 8> baseFamily() {
             {BathroomStation::Meeting, 5, false},
             BathroomStation::None
             }
-    };
+    });
 }
 
 
 // MARK: GLobals
 //| GLOBALS
-array<Person, 8> family;
+Family family;
 
 array<BathroomStation, 4> stations = {
     BathroomStation::Shower,
@@ -149,28 +144,28 @@ array<BathroomStation, 4> stations = {
 TimeDataHolder timeData;
 
 // MARK: Sim Day
-inline bool _personIsRulonOrGeorge(PersonName &name) {  // Helper function for readability
+inline bool _personIsRulonOrGeorge(const PersonName &name) {  // Helper function for readability
     constexpr uint8_t rulonGeorgeMask = static_cast<uint8_t>(PersonName::Rulon | PersonName::George);
     return name & rulonGeorgeMask;
 }
-inline bool _personIsMomOrDad(PersonName &name) {  // Helper function for readability
+inline bool _personIsMomOrDad(const PersonName &name) {  // Helper function for readability
     constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Mom | PersonName::Dad);
     return name & momDadMask;
 }
-inline bool _personIsDadHeatherOrNick(PersonName &name) {  // Helper function for readability
+inline bool _personIsDadHeatherOrNick(const PersonName &name) {  // Helper function for readability
     constexpr uint8_t dadHeatherNickMask = static_cast<uint8_t>(PersonName::Dad | PersonName::Heather | PersonName::Nick);
     return name & dadHeatherNickMask;
 }
-inline bool _stationIsTubOrShower(BathroomStation &station) {
+inline bool _stationIsTubOrShower(const BathroomStation &station) {
     constexpr uint8_t showerTubMask = static_cast<uint8_t>(BathroomStation::Shower | BathroomStation::Tub);
     return station & showerTubMask;
 }
 //| SIM DAY
-inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, const array<Person, 8> &family) {
+inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, const Family &family) {
     Bathroom bathroom;
     bathroom.occupation = family;
-    array<Person, 8> tempFamily = family; // work on this instead of family
-    tempFamily[7].task2.completed = true;
+    Family tempFamily = family; // work on this instead of family
+    tempFamily.members[7].task2.completed = true;
     unsigned short curMinuteFromMidnight = timeData.startOfDay;
     uint8_t didMeeting = 0;
     scheduleAPI::Day day = {};
@@ -180,7 +175,7 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
         curMinuteFromMidnight++;
         for (int personLoopIdx = 0; personLoopIdx < 8; personLoopIdx++) {
             const int personIdx = familyIdxs[personLoopIdx];                  //  < Precomputing for faster runtime
-            Person &person = tempFamily[personIdx];                           //  <
+            Person &person = tempFamily.members[personIdx];                   //  <
             Task &task1 = person.task1;                                       //  <
             Task &task2 = person.task2;                                       //  <
             Task &task3 = person.task3;                                       //  <
@@ -189,13 +184,15 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
 
             // decrement time if using a station
             if (person.usingStation()) {
-                    person.timeLeftUsing -= 1;
+                person.timeLeftUsing -= 1;
                 if (!person.hasTimeLeftUsing()) {
                     bathroom.releaseStation(person.curStation, person.name, personIdx);
+                    person.releaseStation();
                     if (task1.station == person.curStation) task1.completed = true;
                     if (task2.station == person.curStation) task2.completed = true;
                     if (task3.station == person.curStation) task3.completed = true;
                 }
+                tempFamily.update(personIdx, person);
             }
             const bool shouldTakeTask = (minuteWithinMeeting) ? minuteWithinMeeting : !person.hasTimeLeftUsing() && !person.allTasksCompleted();
             if (shouldTakeTask) {
@@ -208,16 +205,15 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
                     if (!task3.completed && minuteWithinMeeting) {
                         if (person.usingStation() && person.curStation == BathroomStation::Meeting) {
                             bathroom.releaseStation(person.curStation, person.name, personIdx);
-                        }
-                        if (person.curStation != BathroomStation::Meeting) {
-                            bathroom.releaseStation(person.curStation, person.name, personIdx);
-                            bathroom.takeStation(task3.station, person.name, personIdx);
+                        } else if (person.curStation != BathroomStation::Meeting) {
                             person.switchTask(task3);
+                            bathroom.takeStation(task3.station, person.name, personIdx);
                         }
-                        person.resumePrevStation();
+                        tempFamily.update(personIdx, person);
                     } else {
                         if (curMinuteFromMidnight == timeData.meetingEnd + 1) {
                             person.resumePrevStation();
+                            break;
                         }
                         if (!task1.completed && task1.station == station && bathroom.stationAvailable(task1.station, person.name)) {
                             bathroom.takeStation(task1.station, person.name, personIdx);
@@ -226,14 +222,16 @@ inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &st
                         } else if (!task2.completed && task2.station == station && bathroom.stationAvailable(task2.station, person.name)) {
                             bathroom.takeStation(task2.station, person.name, personIdx);
                             person.startTask(task2);
+                            tempFamily.update(personIdx, person);
                             break;
                         }
-                    }           
+                    }
                 }
+                tempFamily.update(personIdx, person);
             }
         }
         // store bathroom state for this minute
-        day.minutes[minute] = bathroom;
+        day.update(minute, bathroom);
     }
     return day;
 }
@@ -246,7 +244,7 @@ inline float scoreDay(const scheduleAPI::Day &day) {
     constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Dad) | static_cast<uint8_t>(PersonName::Mom);
     constexpr uint8_t showerMask = static_cast<uint8_t>(BathroomStation::Shower);
     const Bathroom &finalState = day.minutes.back(); // last minute
-    for (const auto &person : finalState.occupation) {
+    for (const auto &person : finalState.occupation.members) {
         score += person.task1.completed + person.task2.completed + person.task3.completed;
     }
     // unsigned short minuteIdx = 0;
@@ -269,8 +267,8 @@ inline float scoreDay(const scheduleAPI::Day &day) {
 
 
 // MARK: Gen Family
-vector<array<Person, 8>> generateFamilyCombinations() {
-    vector<array<Person, 8>> combinations;
+vector<Family> generateFamilyCombinations() {
+    vector<Family> combinations;
     const int numPeople = 7; // excluding Thomas
     int maxChoice = 1;       // 0 = Sink1, 1 = Sink2
 
@@ -282,15 +280,15 @@ vector<array<Person, 8>> generateFamilyCombinations() {
             if (c == 0) sink1Count++;
             else sink2Count++;
         }
-        array<Person, 8> fam = baseFamily();
+        Family fam = baseFamily();
         // Assign sink choice to each person (0..6)
         for (int i = 0; i < numPeople; ++i) {
-            fam[i].task2.station = choices[i] == 0 ? BathroomStation::Sink1
+            fam.members[i].task2.station = choices[i] == 0 ? BathroomStation::Sink1
                                                    : BathroomStation::Sink2;
         }
         // Thomas always has Sink2 (as in your original baseFamily)
-        fam[7].task2.station = BathroomStation::Sink2;
-        fam[7].task2.completed = true;
+        fam.members[7].task2.station = BathroomStation::Sink2;
+        fam.members[7].task2.completed = true;
         // for (Person &person : fam) {
         //     person.task1.completed = !person.task1.timeRequired && person.task1.station == BathroomStation::Shower;
         //     person.task2.completed = !person.task2.timeRequired && person.task2.station == BathroomStation::Shower;
@@ -314,7 +312,7 @@ vector<array<Person, 8>> generateFamilyCombinations() {
 }
 
 // MARK: Test Days
-scheduleAPI::Day testDays(const array<Person, 8> &family) {
+scheduleAPI::Day testDays(const Family &family) {
     scheduleAPI::Day bestDay = {};
     float bestDayScore = -1;
     array<int, 8> familyIdxs = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -342,7 +340,7 @@ scheduleAPI::Day testDays(const array<Person, 8> &family) {
 
 inline string formatBathroom(const Bathroom &bathroom) {
     string output;
-    for (const Person& occupant : bathroom.occupation) {
+    for (const Person& occupant : bathroom.occupation.members) {
         output += to_string(occupant.curStation) + ", ";
     }
     return output;
@@ -363,8 +361,8 @@ float correctDayScore;
 atomic<bool> found = false;
 
 // MARK: Worker
-void worker(const array<Person, 8> &family, const int &ID) {
-    array<Person, 8> familyCopy = family;  // local copy for thread safety
+void worker(Family &family, const int &ID) {
+    Family familyCopy = family;  // local copy for thread safety
     scheduleAPI::Day day = testDays(familyCopy);
     int score = scoreDay(day);
     lock_guard<mutex> guard(mtx);
@@ -410,7 +408,7 @@ int main() {
     }
     cout << correctDayScore << "\n";
     const Bathroom &finalState = correctDay.minutes.back(); // last minute
-    for (const auto& person : finalState.occupation) {
+    for (const auto& person : finalState.occupation.members) {
         if (!person.task1.completed) {
             cout << to_string(person.name) << " did not complete " << to_string(person.task1.station) << "\n";
         }

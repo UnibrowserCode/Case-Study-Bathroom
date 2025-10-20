@@ -60,6 +60,15 @@ struct Person {
     }
 };
 
+struct Family {
+    std::array<Person, 8> members;
+    Family() : members() {};
+    Family(std::array<Person, 8> _family) : members(_family) {};
+    inline void update(const int &idx, const Person &person) {
+        members[idx] = person;
+    }
+};
+
 inline std::string to_string(PersonName name) {
     switch (name) {
         case PersonName::None:    return "None";

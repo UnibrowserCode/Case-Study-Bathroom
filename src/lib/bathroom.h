@@ -12,9 +12,9 @@ class Bathroom {
 public:
     uint8_t stations;
     uint8_t occupants;
-    std::array<personAPI::Person, 8> occupation = {};
+    personAPI::Family occupation = {};
 public:
-    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, std::array<personAPI::Person, 8> occupation_ = {})
+    Bathroom(uint8_t stations_ = 0, uint8_t occupants_ = 0, personAPI::Family occupation_ = {})
         : stations(stations_), occupants(occupants_), occupation(occupation_) {}
 
         // Check if a station is free (no one is using it)
@@ -24,12 +24,12 @@ public:
         inline void takeStation(BathroomStation &station, personAPI::PersonName &name, int personIdx) {
             stations |= station;
             occupants |= name;
-            occupation.at(personIdx).takeStation(station);
+            occupation.members.at(personIdx).takeStation(station);
         }
         inline void releaseStation(BathroomStation &station, personAPI::PersonName &name, int personIdx) {
             stations &= ~station;
             occupants &= ~name;
-            occupation.at(personIdx).releaseStation();
+            occupation.members.at(personIdx).releaseStation();
         }
         inline bool isUsingStation(personAPI::PersonName &name) const {
             return occupants & name;
