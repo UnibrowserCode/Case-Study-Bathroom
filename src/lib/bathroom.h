@@ -1,18 +1,12 @@
 #pragma once
-#include <array>
-#include "globals.h"
-#include "person.h"
 #include <iostream>
+#include "common_includes.h"
+#include "global_enums.h"
+#include "person.h"
+
 
 namespace bathroomAPI {
 
-enum class BathroomStation : uint8_t {
-    None   = 0,
-    Sink1  = 1 << 0,
-    Sink2  = 1 << 1,
-    Tub    = 1 << 2,
-    Shower = 1 << 3
-};
 
 class Bathroom {
 public:
@@ -24,19 +18,21 @@ public:
         : stations(stations_), occupants(occupants_), occupation(occupation_) {}
 
         // Check if a station is free (no one is using it)
-        inline bool isTaken(uint8_t &station) const {
+        inline bool isTaken(BathroomStation &station) const {
             return station & stations;
         }
-        void takeStation(BathroomStation &station, personAPI::PersonName &user) {
-            stations |= static_cast<uint8_t>(station);
-            occupants |= static_cast<uint8_t>(user);
+        inline void takeStation(BathroomStation &station, personAPI::PersonName &name, int personIdx) {
+            stations |= station;
+            occupants |= name;
+            occupation.at(personIdx).takeStation(station);
         }
-        void releaseStation(BathroomStation &station, personAPI::PersonName &user) {
-            stations &= ~static_cast<uint8_t>(station);
-            occupants &= ~static_cast<uint8_t>(user);
+        inline void releaseStation(BathroomStation &station, personAPI::PersonName &name, int personIdx) {
+            stations &= ~station;
+            occupants &= ~name;
+            occupation.at(personIdx).releaseStation();
         }
-        inline bool isUsingStation(uint8_t &user) const {
-            return occupants & user;
+        inline bool isUsingStation(personAPI::PersonName &name) const {
+            return occupants & name;
         }
         /*
         * Returns whether a station is available based on a set of rules.
@@ -51,15 +47,12 @@ public:
         */
         inline bool stationAvailable(BathroomStation &station, personAPI::PersonName &user) {
             constexpr uint8_t momDadMask = static_cast<uint8_t>(personAPI::PersonName::Mom) | static_cast<uint8_t>(personAPI::PersonName::Dad);
-            uint8_t userUint = static_cast<uint8_t>(user);
-            uint8_t stationUint = static_cast<uint8_t>(station);
-            if (isTaken(stationUint)) return false;
-            if (isUsingStation(userUint)) return false;
+            if (isTaken(station)) return false;
+            if (isUsingStation(user)) return false;
             if (!stations) return true;
-            // Mom + Dad = 3, everyone else's baseline values are above 3.
             // If only mom and/or dad are in the bathroom, everything is open.
-            if (userUint & momDadMask && !(occupants & ~momDadMask)) return true;
-            return !(stations & static_cast<uint8_t>(BathroomStation::Shower)) && !(station == BathroomStation::Shower);
+            if (user & momDadMask && !(occupants & ~momDadMask)) return true;
+            return !(stations & BathroomStation::Shower) && !(station == BathroomStation::Shower);
         }
 };
 // Option 2: to_string (use std::string s = to_string(name);)
@@ -70,6 +63,7 @@ inline std::string to_string(bathroomAPI::BathroomStation station) {
         case BathroomStation::Sink1:  return "Sink1";
         case BathroomStation::Sink2:  return "Sink2";
         case BathroomStation::Tub:    return "Bathtub";
+        case BathroomStation::Meeting:return "Meeting";
         default:                      return "Unknown";
     }
 }

@@ -24,7 +24,7 @@ int main() {
     // Test availability for Dad
     if (bathroom.stationAvailable(sink, dad.name)) {
         cout << "Dad can take Sink1\n";
-        bathroom.takeStation(sink, dad.name);
+        bathroom.takeStation(sink, dad.name, 1);
         dad.curStation = sink;
     } else {
         cout << "Dad cannot take Sink1 (should not happen)\n";
@@ -38,13 +38,13 @@ int main() {
     }
 
     // Dad releases Sink1
-    bathroom.releaseStation(sink, dad.name);
+    bathroom.releaseStation(sink, dad.name, 1);
     dad.curStation = BathroomStation::None;
 
     // Test availability again for Mom
     if (bathroom.stationAvailable(sink, mom.name)) {
         cout << to_string(mom.name) << " can take Sink1 after release\n";
-        bathroom.takeStation(sink, mom.name);
+        bathroom.takeStation(sink, mom.name, 1);
         mom.curStation = sink;
     }
 

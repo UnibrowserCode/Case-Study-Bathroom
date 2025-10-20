@@ -2,6 +2,7 @@
 #include "lib/schedule.h"
 #include "lib/person.h"
 #include "lib/threadpool.h"
+#include "lib/global_enums.h"
 #include <algorithm>
 #include <string>
 #include <array>
@@ -26,7 +27,7 @@ struct TimeDataHolder {
     unsigned short timeDadHeatherNickLeave = 460;
     unsigned short timeTillRulonGeorgeLeave = 470;
     unsigned short startForAllShowers = 307;  // minutes from midnight until 5:12 AM (minimum required to fit all showers)
-    unsigned short startOfDay = 0; // 350
+    unsigned short startOfDay = 0; // 330
     unsigned short timeTillShower = 405;  // minutes from midnight until 6:45 AM
     unsigned short meetingStart = 405;  // minutes from midnight until 6:45 AM
     unsigned short meetingEnd = 410;  // minutes from midnight until 6:45 AM
@@ -70,7 +71,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 10, false},  // 10
             {BathroomStation::Sink1, 18, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -78,7 +79,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 17, false}, // 17
             {BathroomStation::Sink2, 30, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -86,7 +87,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 13, false},  // 13
             {BathroomStation::Sink1, 44, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
             },
         Person{
@@ -94,7 +95,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 3, false},  // 3
             {BathroomStation::Sink2, 32, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -102,7 +103,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 0, true},  // 7
             {BathroomStation::Sink1, 18, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -110,7 +111,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 3, false},  // 3
             {BathroomStation::Sink2, 5, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -118,7 +119,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Shower, 0, true},  // 15
             {BathroomStation::Sink1, 9, false},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
         },
         Person{
@@ -126,7 +127,7 @@ inline array<Person, 8> baseFamily() {
             BathroomStation::None, 0,
             {BathroomStation::Tub, 20, false},
             {BathroomStation::Sink2, 0, true},
-            {BathroomStation::None, 5, false},
+            {BathroomStation::Meeting, 5, false},
             BathroomStation::None
             }
     };
@@ -147,84 +148,87 @@ array<BathroomStation, 4> stations = {
 
 TimeDataHolder timeData;
 
-
-//| SIM DAY
 // MARK: Sim Day
+inline bool _personIsRulonOrGeorge(PersonName &name) {  // Helper function for readability
+    constexpr uint8_t rulonGeorgeMask = static_cast<uint8_t>(PersonName::Rulon | PersonName::George);
+    return name & rulonGeorgeMask;
+}
+inline bool _personIsMomOrDad(PersonName &name) {  // Helper function for readability
+    constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Mom | PersonName::Dad);
+    return name & momDadMask;
+}
+inline bool _personIsDadHeatherOrNick(PersonName &name) {  // Helper function for readability
+    constexpr uint8_t dadHeatherNickMask = static_cast<uint8_t>(PersonName::Dad | PersonName::Heather | PersonName::Nick);
+    return name & dadHeatherNickMask;
+}
+inline bool _stationIsTubOrShower(BathroomStation &station) {
+    constexpr uint8_t showerTubMask = static_cast<uint8_t>(BathroomStation::Shower | BathroomStation::Tub);
+    return station & showerTubMask;
+}
+//| SIM DAY
 inline scheduleAPI::Day simulateDay(array<int, 8> &familyIdxs, array<int, 4> &stationIdxs, const array<Person, 8> &family) {
-    scheduleAPI::Day day = {};
     Bathroom bathroom;
+    bathroom.occupation = family;
     array<Person, 8> tempFamily = family; // work on this instead of family
-    constexpr uint8_t showerTubMask = static_cast<uint8_t>(BathroomStation::Shower) | static_cast<uint8_t>(BathroomStation::Tub);
-    constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Mom) | static_cast<uint8_t>(PersonName::Dad);
-    constexpr uint8_t dadHeatherNickMask = static_cast<uint8_t>(PersonName::Dad) | static_cast<uint8_t>(PersonName::Heather) | static_cast<uint8_t>(PersonName::Nick);
-    constexpr uint8_t rulonGeorgeMask = static_cast<uint8_t>(PersonName::Rulon) | static_cast<uint8_t>(PersonName::George);
     tempFamily[7].task2.completed = true;
     unsigned short curMinuteFromMidnight = timeData.startOfDay;
     uint8_t didMeeting = 0;
+    scheduleAPI::Day day = {};
 
     for (int minute = 0; minute < day.minutesInDay; ++minute) {
+        const bool minuteWithinMeeting = timeData.meetingStart <= curMinuteFromMidnight && curMinuteFromMidnight <= timeData.meetingEnd;
         curMinuteFromMidnight++;
         for (int personLoopIdx = 0; personLoopIdx < 8; personLoopIdx++) {
-            const int personIdx = familyIdxs[personLoopIdx];
-            Person &person = tempFamily[personIdx]; // changed to tempFamily
-            uint8_t personUint = static_cast<uint8_t>(person.name);
-            Task &task1 = person.task1;
-            Task &task2 = person.task2;
-            // FIXME: MEETING LOGIC
-            if (didMeeting < 255 && timeData.meetingStart <= curMinuteFromMidnight && curMinuteFromMidnight <= timeData.meetingEnd + 1) {
-                if (curMinuteFromMidnight == timeData.meetingEnd + 1) {
-                    person.curStation = person.prevStation;
-                    person.prevStation = BathroomStation::None;
-                    bathroom.takeStation(person.curStation, person.name);
-                    didMeeting |= personUint;
-                } else if (curMinuteFromMidnight == timeData.meetingStart) {
-                    person.prevStation = person.curStation;
-                    person.curStation = BathroomStation::None;
-                    BathroomStation stationToRelease = person.curStation != BathroomStation::None ? person.curStation : BathroomStation::None;
-                    bathroom.releaseStation(stationToRelease, person.name);
-                }
-                person.task3.completed = true;
-                bathroom.occupation[personIdx] = person; // <- update occupation here too
-            } else {
-                // decrement time if using a station
-                if (person.curStation != BathroomStation::None) {
-                        person.timeLeftUsing -= 1;
-                    if (person.timeLeftUsing <= 0) {
-                        bathroom.releaseStation(person.curStation, person.name);
-                        if (task1.station == person.curStation)
-                            task1.completed = true;
-                        if (task2.station == person.curStation)
-                            task2.completed = true;
-                        person.curStation = BathroomStation::None;
-                    }
-                    bathroom.occupation[personIdx] = person;
-                }
-                if (!person.timeLeftUsing && !person.allTasksCompleted()) {
-                    for (int &stationIdx : stationIdxs) {
-                        if (curMinuteFromMidnight >= timeData.timeDadHeatherNickLeave && personUint & dadHeatherNickMask) break;
-                        if (curMinuteFromMidnight >= timeData.timeTillRulonGeorgeLeave && personUint & rulonGeorgeMask) break;
-                        BathroomStation station = stations[stationIdx];
-                        // if (station == BathroomStation::Shower) break;
-                        if (curMinuteFromMidnight < timeData.timeTillShower && static_cast<uint8_t>(station) & showerTubMask) break;
-                        if (curMinuteFromMidnight < timeData.timeTillShower && static_cast<uint8_t>(station) & showerTubMask) break;
+            const int personIdx = familyIdxs[personLoopIdx];                  //  < Precomputing for faster runtime
+            Person &person = tempFamily[personIdx];                           //  <
+            Task &task1 = person.task1;                                       //  <
+            Task &task2 = person.task2;                                       //  <
+            Task &task3 = person.task3;                                       //  <
+            // Skip other checks if the person doesn't have anything to do
+            if (person.allTasksCompleted() && !person.usingStation()) continue;
 
-                        // check task1 first if its station is available
+            // decrement time if using a station
+            if (person.usingStation()) {
+                    person.timeLeftUsing -= 1;
+                if (!person.hasTimeLeftUsing()) {
+                    bathroom.releaseStation(person.curStation, person.name, personIdx);
+                    if (task1.station == person.curStation) task1.completed = true;
+                    if (task2.station == person.curStation) task2.completed = true;
+                    if (task3.station == person.curStation) task3.completed = true;
+                }
+            }
+            const bool shouldTakeTask = (minuteWithinMeeting) ? minuteWithinMeeting : !person.hasTimeLeftUsing() && !person.allTasksCompleted();
+            if (shouldTakeTask) {
+                for (int &stationIdx : stationIdxs) {
+                    BathroomStation station = stations[stationIdx];
+                    if (curMinuteFromMidnight >= timeData.timeDadHeatherNickLeave && _personIsDadHeatherOrNick(person.name)) continue;
+                    if (curMinuteFromMidnight >= timeData.timeTillRulonGeorgeLeave && _personIsRulonOrGeorge(person.name)) continue;
+                    if (curMinuteFromMidnight < timeData.timeTillShower && _stationIsTubOrShower(station)) continue;
+                    // check task3 first if its station is available
+                    if (!task3.completed && minuteWithinMeeting) {
+                        if (person.usingStation() && person.curStation == BathroomStation::Meeting) {
+                            bathroom.releaseStation(person.curStation, person.name, personIdx);
+                        }
+                        if (person.curStation != BathroomStation::Meeting) {
+                            bathroom.releaseStation(person.curStation, person.name, personIdx);
+                            bathroom.takeStation(task3.station, person.name, personIdx);
+                            person.switchTask(task3);
+                        }
+                        person.resumePrevStation();
+                    } else {
+                        if (curMinuteFromMidnight == timeData.meetingEnd + 1) {
+                            person.resumePrevStation();
+                        }
                         if (!task1.completed && task1.station == station && bathroom.stationAvailable(task1.station, person.name)) {
-                            bathroom.takeStation(task1.station, person.name);
-                            person.timeLeftUsing = task1.timeRequired;
-                            person.curStation = task1.station;
-                            // cout << to_string(person.name) << " TOOK: " << to_string(task1.station) << " FOR " << person.timeLeftUsing << "\n";
-                            bathroom.occupation[personIdx] = person;
+                            bathroom.takeStation(task1.station, person.name, personIdx);
+                            person.startTask(task1);
                             break;
                         } else if (!task2.completed && task2.station == station && bathroom.stationAvailable(task2.station, person.name)) {
-                            bathroom.takeStation(task2.station, person.name);
-                            person.timeLeftUsing = task2.timeRequired;
-                            person.curStation = task2.station;
-                            // cout << to_string(person.name) << " TOOK: " << to_string(task2.station) << " FOR " << person.timeLeftUsing << "\n";
-                            bathroom.occupation[personIdx] = person;
+                            bathroom.takeStation(task2.station, person.name, personIdx);
+                            person.startTask(task2);
                             break;
-                        }                    
-                    }
+                        }
+                    }           
                 }
             }
         }
@@ -239,20 +243,26 @@ inline float scoreDay(const scheduleAPI::Day &day) {
     // Check the last minute for completion
     float score = 0;
     constexpr uint8_t sinkMask = static_cast<uint8_t>(BathroomStation::Sink1) | static_cast<uint8_t>(BathroomStation::Sink2);
+    constexpr uint8_t momDadMask = static_cast<uint8_t>(PersonName::Dad) | static_cast<uint8_t>(PersonName::Mom);
+    constexpr uint8_t showerMask = static_cast<uint8_t>(BathroomStation::Shower);
     const Bathroom &finalState = day.minutes.back(); // last minute
     for (const auto &person : finalState.occupation) {
         score += person.task1.completed + person.task2.completed + person.task3.completed;
     }
-    if (score != 24) return score; // Ensure chosen solution will be one with all tasks completed, don't add bonuses below
-    unsigned short minuteIdx = 0;
+    // unsigned short minuteIdx = 0;
     for (const auto &minute : day.minutes) {
         // score -= (minute.stations & showerUint && minuteIdx < showerCutoff) / 10;
-        if (!minute.stations) {
-            score += 0.05f;
-        } else if (minute.stations & sinkMask == sinkMask) {
+        if (!minute.stations) {  // reward for extra time
             score += 0.005f;
+        } else {
+            if (!(minute.stations & ~sinkMask)) { // reward for both sinks in use and mom and dad special case
+                score += 0.001f;
+            }
+            if (minute.stations & showerMask && !(minute.occupants & ~momDadMask)) {
+                score += 0.001f;
+            }
         }
-        minuteIdx++;
+        // minuteIdx++;
     }
     return score;
 }
@@ -378,7 +388,7 @@ int main() {
     Bathroom bathroom;
     scheduleAPI::Day exampleDay;
 
-    const size_t numThreads = thread::hardware_concurrency(); // or any number you want
+    const size_t numThreads = thread::hardware_concurrency() * 2; // or any number you want
     ThreadPool pool(numThreads);
 
     scheduleAPI::Week schedule = {};

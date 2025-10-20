@@ -1,13 +1,12 @@
 #pragma once
-#include <array>
-#include "globals.h"
+#include "common_includes.h"
 #include "person.h"
 #include "bathroom.h"
 
 namespace scheduleAPI {
 struct Day {
-    const int minutesInDay = {135};
-    std::array<bathroomAPI::Bathroom, 135> minutes;
+    const int minutesInDay = {150};
+    std::array<bathroomAPI::Bathroom, 150> minutes;
 };
 
 struct Week {

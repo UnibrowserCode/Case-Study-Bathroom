@@ -1,10 +1,7 @@
 #pragma once
-#include <array>
-#include "globals.h"
-
-namespace bathroomAPI {
-    enum class BathroomStation : uint8_t;
-}
+#include <type_traits>
+#include "common_includes.h"
+#include "global_enums.h"
 
 namespace personAPI {
 
@@ -14,18 +11,6 @@ struct Task {
     bool completed;
 };
 
-// Person enum
-enum class PersonName : uint8_t {
-    None    = 0,
-    Mom     = 1 << 0,
-    Dad     = 1 << 1,
-    Heather = 1 << 2,
-    Nick    = 1 << 3,
-    Rulon   = 1 << 4,
-    George  = 1 << 5,
-    Olivia  = 1 << 6,
-    Thomas  = 1 << 7
-};
 
 struct Person {
     PersonName name;
@@ -35,13 +20,46 @@ struct Person {
     Task task2;
     Task task3;
     bathroomAPI::BathroomStation prevStation;
-    inline bool allTasksCompleted() const {
-        return task1.completed && task2.completed;
-    }
+    int prevTimeLeftUsing = 0;
     int timeTillLeave = 460;
+    inline bool allTasksCompleted() const {
+        return task1.completed && task2.completed && task3.completed;
+    }
+    inline bool hasTimeLeftUsing() const {
+        return timeLeftUsing > 0;
+    }
+    inline bool usingStation() const { 
+        return curStation != bathroomAPI::BathroomStation::None; 
+    }
+    inline void resumePrevStation() {
+        curStation = prevStation;
+        prevStation = bathroomAPI::BathroomStation::None;
+    }
+    inline void takeStation(bathroomAPI::BathroomStation &station) {
+        curStation = station;
+    }
+    inline void releaseStation() {
+        curStation = bathroomAPI::BathroomStation::None;
+    }
+    inline void switchTask(Task &nextTask) {
+        assert(prevStation == bathroomAPI::BathroomStation::None);
+        prevStation = curStation;
+        curStation = nextTask.station;
+        prevTimeLeftUsing = timeLeftUsing;
+        timeLeftUsing = nextTask.timeRequired;
+    }
+    inline void resumeOriginalTask() {
+        curStation = prevStation;
+        prevStation = bathroomAPI::BathroomStation::None;
+        timeLeftUsing = prevTimeLeftUsing;
+        prevTimeLeftUsing = 0;
+    }
+    inline void startTask(Task &task) {
+        curStation = task.station;
+        timeLeftUsing = task.timeRequired;
+    }
 };
 
-// Option 2: to_string (use std::string s = to_string(name);)
 inline std::string to_string(PersonName name) {
     switch (name) {
         case PersonName::None:    return "None";
@@ -56,19 +74,4 @@ inline std::string to_string(PersonName name) {
         default:                  return "Unknown";
     }
 }
-
-inline personAPI::PersonName operator|(personAPI::PersonName a, personAPI::PersonName b) {
-    return static_cast<personAPI::PersonName>(
-        static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
-}
-
-inline personAPI::PersonName operator&(personAPI::PersonName a, personAPI::PersonName b) {
-    return static_cast<personAPI::PersonName>(
-        static_cast<uint32_t>(a) & static_cast<uint32_t>(b));
-}
-
-inline personAPI::PersonName& operator|=(personAPI::PersonName& a, personAPI::PersonName b) {
-    return a = a | b;
-}
-
 } // namespace personAPI
